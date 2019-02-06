@@ -1,50 +1,74 @@
 <template>
-  <div class="article-wrapper">
-    <div class="article" v-for="article in articles" v-if="articles">
-      <div class="user">
-        <img class="user-image" src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="">
-        <div class="user-info">
-          <p class="user-name">{{ article.author.username }}</p>
-          <p class="user-created">{{ article.createdAt }}</p>
+  <div>
+    <div class="article-wrapper" v-if="articles.length">
+      <div class="article" v-for="article in articles">
+        <div class="user">
+          <img class="user-image" src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="">
+          <div class="user-info">
+            <p class="user-name">{{ article.author.username }}</p>
+            <p class="user-created">{{ article.createdAt }}</p>
+          </div>
+        </div>
+        <router-link class="article-detail" :to="{name: 'uniqArticle', params: { slug: article.slug, data: articles } }">
+          <div>
+            <p class="article-title">{{ article.title }}</p>
+            <p class="article-body">{{ article.body }}</p>
+          </div>
+        </router-link>
+        <p v-for="userTag in article.tagList" class="tag-wrapper">
+          <button class="tag-btn">{{ userTag }}</button>
+        </p>
+      </div>
+      <div class="tag-wrapper">
+        <p class="tag-title">Popular Tags</p>
+        <div v-for="tag in tags" class="tags">
+          <button class="tag-btn">{{ tag }}</button>
         </div>
       </div>
-      <p class="article-title">{{ article.title }}</p>
-      <p class="article-body">{{ article.body }}</p>
-      <p>{{ article.tag }}</p>
     </div>
-    <div class="loader">
+    <div class="loader" v-else>
       <Loader />
     </div>
   </div>
 </template>
 
 <script>
-import Loader from './Loader';
+import Loader from './Loader.vue';
+import uniqArticle from './UniqArticle';
 export default {
   name: "Article",
-  show: true,
   components: {
-    Loader
+    Loader,
+    uniqArticle,
   },
   data() {
     return {
-      articles: []
+      articles: [],
+      tags: [],
     }
   },
   mounted() {
+
+    // Fetching Articles from API
+
     fetch('https://conduit.productionready.io/api/articles')
     .then(res => res.json())
     .then(articles => {this.articles = articles.articles})
+
+    // Fetching Tags from API
+    
+    fetch('https://conduit.productionready.io/api/tags')
+    .then(res => res.json())
+    .then(tags => {this.tags = tags.tags})
   }
 }
 </script>
 
-<style scoped>
+<style>
   .article-wrapper {
-    max-width: 1200px;
+    max-width: 800px;
     width: 100%;
-    margin: 0 auto;
-    padding: 50px 0;
+    padding: 50px;
   }
   .article {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -84,5 +108,32 @@ export default {
   .loader {
     text-align: center;
     padding: 50px 0;
+  }
+  .tag-wrapper {
+    float: right;
+    position: absolute;
+    right: 10%;
+    top: 47%;
+    background: #bbb;
+    padding: 10px;
+    width: 20%;
+  }
+  .tag-title {
+    margin: 0;
+  }
+  .tags {
+    display: inline-block;
+    margin: 2px;
+  }
+  .tag-btn {
+    background: #373a3c;
+    border: none;
+    color: aliceblue;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 2px;
+  }
+  .article-detail {
+    text-decoration: none;
   }
 </style>

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import NavBar from "./components/NavBar.vue";
+import uniqArticle from "./components/UniqArticle.vue";
 
 Vue.use(Router);
 
@@ -15,9 +15,10 @@ export default new Router({
       component: Home
     },
     {
-      path: "/",
-      name: "navbar",
-      component: NavBar
+      path: "/articles/:slug",
+      name: "uniqArticle",
+      component: uniqArticle,
+      props: true
     }
   ]
 });
