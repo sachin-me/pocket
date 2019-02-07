@@ -6,16 +6,20 @@
           <div>
             <p class="article-title">{{ article.title }}</p>
           </div>
-          <div>
+          <div class="uniqArticle-user">
             <img class="user-image" src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="">
             <div class="user-info">
               <p class="user-name">{{ article.author.username }}</p>
               <p class="user-created">{{ article.createdAt }}</p>
             </div>
+            <div class="buttons">
+              <button class="flw-btn">+ Follow {{ article.author.username }}</button>
+              <button class="fav-btn">Favorite Article ({{ article.favoritesCount }})</button>
+            </div>
           </div>
         </div>
         <div class="uniqArticle-body">
-          <p class="article-body">{{ article.body }}</p>
+          <p class="article-body" v-html="article.body"></p>
         </div>
       </div>
     </div>
@@ -39,7 +43,9 @@ export default {
     }
   },
   mounted() {
-    console.log(this.articleSlug);
+
+    // Fetching data from API using slug 
+
     fetch(`https://conduit.productionready.io/api/articles/${this.articleSlug}`)
     .then(res => res.json())
     .then(articles => {this.uniqArticle = articles})
@@ -72,4 +78,34 @@ export default {
   .article-body {
     color: #333;
   }
+  .uniqArticle-user {
+    display: grid;
+    grid-template-columns: 50px 300px 1fr;
+  }
+  .buttons {
+    padding: 6px;
+  } 
+  .buttons button {
+    background: transparent;
+    border: 1px solid;
+    margin: 0 5px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .fav-btn {
+    color: #42b983;
+  }
+  .fav-btn:hover {
+    background: #42b983;
+    color: aliceblue;
+    border: 1px solid transparent;
+  }
+  .flw-btn:hover {
+    background: #a1a1a1;
+    border: 1px solid transparent;
+    color: aliceblue;
+  }
+
 </style>

@@ -5,14 +5,16 @@
         <div class="user">
           <img class="user-image" src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="">
           <div class="user-info">
-            <p class="user-name">{{ article.author.username }}</p>
+            <router-link class="user-link" :to="{ name: 'profile', params: { username: article.author.username } }">
+              <p class="user-name">{{ article.author.username }}</p>
+            </router-link>
             <p class="user-created">{{ article.createdAt }}</p>
           </div>
         </div>
         <router-link class="article-detail" :to="{name: 'uniqArticle', params: { slug: article.slug, data: articles } }">
           <div>
             <p class="article-title">{{ article.title }}</p>
-            <p class="article-body">{{ article.body }}</p>
+            <p class="article-body">{{ article.description }}</p>
           </div>
         </router-link>
         <p v-for="userTag in article.tagList" class="tag-wrapper">
@@ -35,11 +37,13 @@
 <script>
 import Loader from './Loader.vue';
 import uniqArticle from './UniqArticle';
+import Profile from './Profile';
 export default {
   name: "Article",
   components: {
     Loader,
     uniqArticle,
+    Profile
   },
   data() {
     return {
@@ -94,6 +98,9 @@ export default {
   .user-name {
     color: #42b983;
   }
+  .user-link {
+    text-decoration: none;
+  }
   .user-created {
     color: #bbb;
   }
@@ -112,11 +119,11 @@ export default {
   .tag-wrapper {
     float: right;
     position: absolute;
-    right: 10%;
+    right: 8%;
     top: 47%;
     background: #bbb;
     padding: 10px;
-    width: 20%;
+    width: 24%;
   }
   .tag-title {
     margin: 0;
