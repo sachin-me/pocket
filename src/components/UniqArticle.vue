@@ -102,6 +102,9 @@ export default {
     color: aliceblue;
     border: 1px solid transparent;
   }
+  .flw-btn {
+    color: #ccc;
+  }
   .flw-btn:hover {
     background: #a1a1a1;
     border: 1px solid transparent;

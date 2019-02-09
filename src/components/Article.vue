@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="article-wrapper" v-if="articles.length">
+      <div class="global-feed">
+        <router-link to="/">
+          <h2>Global Feed</h2>
+        </router-link>
+      </div>
       <div class="article" v-for="article in articles">
         <div class="user">
           <img class="user-image" src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="">
@@ -9,6 +14,11 @@
               <p class="user-name">{{ article.author.username }}</p>
             </router-link>
             <p class="user-created">{{ article.createdAt }}</p>
+          </div>
+          <div class="like-btn">
+            <div class="like-count-wrapper">
+              <span><i class="fas fa-heart"></i>{{ article.favoritesCount }}</span>
+            </div>
           </div>
         </div>
         <router-link class="article-detail" :to="{name: 'uniqArticle', params: { slug: article.slug, data: articles } }">
@@ -24,7 +34,9 @@
       <div class="tag-wrapper">
         <p class="tag-title">Popular Tags</p>
         <div v-for="tag in tags" class="tags">
-          <button class="tag-btn">{{ tag }}</button>
+          <router-link :to="{name: 'tags', params: { tag: tag }}">
+            <button class="tag-btn">{{ tag }}</button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -81,7 +93,8 @@ export default {
     margin: 20px 0;
   }
   .user {
-    display: flex;
+    display: grid;
+    grid-template-columns: 60px 400px auto;
   }
   .user-image {
     border-radius: 50%;
@@ -90,7 +103,6 @@ export default {
   }
   .user-info {
     display: inline-block;
-    padding: 0 10px;
   }
   .user-info p {
     margin: 5px;
@@ -139,8 +151,29 @@ export default {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 2px;
+    outline: none;
   }
   .article-detail {
     text-decoration: none;
+  }
+  .like-btn {
+    text-align: end;
+  }
+  .like-count-wrapper span {
+    border: 1px solid #42b983;
+    color: #42b983;
+    padding: 5px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .like-count-wrapper span i {
+    margin: 0 5px;
+  }
+
+  .global-feed a{
+    color: #42b983;
+  }
+  .uniqTags {
+
   }
 </style>

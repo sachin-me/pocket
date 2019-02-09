@@ -4,8 +4,16 @@
       <div>
         <router-link to="/">Pocket</router-link>
       </div>
-      <div>
-        <router-link to="/">Home</router-link> 
+      <div class="nav-links">
+        <div>
+          <router-link to="/">Home</router-link> 
+        </div>
+        <div>
+          <router-link to="/login">Sign in</router-link>
+        </div>
+        <div>
+          <router-link to="/register">Sign up</router-link>
+        </div>
       </div>
     </div>
     <router-view />
@@ -37,6 +45,10 @@ body {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+.nav-links {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
 }
 
 </style>

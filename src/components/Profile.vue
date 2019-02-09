@@ -21,6 +21,11 @@
                 </router-link>
                 <p class="user-created">{{ user.createdAt }}</p>
               </div>
+              <div class="like-btn">
+                <div class="like-count-wrapper">
+                  <span><i class="fas fa-heart"></i>{{ user.favoritesCount }}</span>
+                </div>
+              </div>
             </div>
             <div>
               <p class="user-title">{{ user.title }}</p>
