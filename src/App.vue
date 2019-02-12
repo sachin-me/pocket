@@ -8,17 +8,53 @@
         <div>
           <router-link to="/">Home</router-link> 
         </div>
-        <div>
-          <router-link to="/login">Sign in</router-link>
+        <div v-if="jwt" class="loggedIn-user">
+          <div>
+            <router-link to="/editor">New Article</router-link>
+          </div>
+          <div>
+            <router-link to="/settings">Settings</router-link>
+          </div>
+          <div>
+            <router-link :to="{ name: 'user', params: {user: user.username} }">{{ user.username }}</router-link>
+          </div>
         </div>
-        <div>
-          <router-link to="/register">Sign up</router-link>
+        <div v-else>
+          <div>
+            <router-link to="/login">Sign in</router-link>
+          </div>
+          <div>
+            <router-link to="/register">Sign up</router-link>
+          </div>
         </div>
       </div>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  name: 'user',
+  data() {
+    return {
+      jwt: '',
+      user: ''
+    }
+  },
+  mounted() {
+    this.jwt = JSON.parse(localStorage.getItem('jwt'));
+    fetch('https://conduit.productionready.io/api/user', {
+      method: "GET",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Token ${this.jwt}`		
+      }
+    }).then(res => res.json())
+    .then(data => this.user = data.user)
+  }
+}
+</script>
 
 <style>
 body {
@@ -47,6 +83,11 @@ body {
   color: #42b983;
 }
 .nav-links {
+  display: grid;
+  grid-template-columns: repeat(3, 130px);
+}
+
+.loggedIn-user {
   display: grid;
   grid-template-columns: repeat(3, 100px);
 }

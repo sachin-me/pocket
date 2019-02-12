@@ -6,6 +6,7 @@ import Profile from "./components/Profile.vue";
 import Signup from "./components/Signup.vue";
 import Signin from "./components/Signin.vue";
 import Tags from "./components/Tags.vue";
+import createArticle from "./components/createArticle.vue";
 
 Vue.use(Router);
 
@@ -27,7 +28,7 @@ export default new Router({
     {
       path: "/@:username",
       name: "profile",
-      component: Profile,
+      component: Profile
     },
     {
       path: "/register",
@@ -43,6 +44,12 @@ export default new Router({
       path: "/tag/:tag",
       name: "tags",
       component: Tags,
+      props: true
+    },
+    {
+      path: "/editor",
+      name: "createArticle",
+      component: createArticle,
       props: true
     }
   ]

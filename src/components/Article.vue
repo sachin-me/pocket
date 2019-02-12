@@ -173,7 +173,5 @@ export default {
   .global-feed a{
     color: #42b983;
   }
-  .uniqTags {
-
-  }
+  
 </style>
